@@ -1,0 +1,10 @@
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.csproj.AssemblyReference.cache
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.Form1.resources
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.Properties.Resources.resources
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.csproj.GenerateResource.cache
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.csproj.CoreCompileInputs.cache
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\bin\Debug\Lab2Polygons.exe.config
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\bin\Debug\Lab2Polygons.exe
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\bin\Debug\Lab2Polygons.pdb
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.exe
+C:\Users\Дмитрий\Documents\Компьютерная графика\Lab2Polygons\Lab2Polygons\obj\Debug\Lab2Polygons.pdb

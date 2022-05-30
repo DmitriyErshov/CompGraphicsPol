@@ -83,22 +83,32 @@ namespace Lab2Polygons
                                 v1.X * v2.Y - v1.Y * v2.X);
         }
 
+        //CrossProduct
         public static Vertex3D operator *(Vertex3D v1, Vertex3D v2)
         {
-            double ax, ay, az;
-            ax = v1.Y * v2.Z - v1.X * v2.Y;
-            ay = v1.X * v2.X - v1.X * v2.Z;
-            az = v1.X * v2.Y - v1.Y * v2.X;
-            return new Vertex3D(ax, ay, az);
+            return new Vertex3D(v1.Y * v2.Z - v1.Z * v2.Y,
+                                v1.Z * v2.X - v1.X * v2.Z,
+                                v1.X * v2.Y - v1.Y * v2.X);
         }
 
         public static Vertex3D Add(Vertex3D v1, Vertex3D v2)
         {
             return new Vertex3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
         }
+
+        public static Vertex3D operator +(Vertex3D v1, Vertex3D v2)
+        {
+            return new Vertex3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        }
+
         public static Vertex3D Substract(Vertex3D v1, Vertex3D v2)
         {
-            return new Vertex3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z); 
+            return new Vertex3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+        }
+
+        public static Vertex3D operator -(Vertex3D v1, Vertex3D v2)
+        {
+            return new Vertex3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
         }
 
         public static Vertex3D Multiply(double k, Vertex3D v)
@@ -106,20 +116,11 @@ namespace Lab2Polygons
             return new Vertex3D(k * v.X, k * v.Y, k * v.Z);
         }
 
-        public Vertex3D MultiplyMatr(double[,] matr)
+        public static Vertex3D operator *(double k, Vertex3D v)
         {
-            Vertex3D res = new Vertex3D(0, 0, 0);
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    res[i] += this[j] * matr[i, j];
-                }
-            }
-
-            return res;
+            return new Vertex3D(k * v.X, k * v.Y, k * v.Z);
         }
+
 
         public Vertex3D MultiplyMatr(Matrix matr)
         {

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Lab2Polygons
 {
-    public partial class Form1 : Form
+    public class BoxDrawer
     {
         Bitmap bitmap;
 
@@ -30,25 +26,18 @@ namespace Lab2Polygons
 
         Color backgroundColor;
 
-
-        StreamWriter str;
-        public Form1()
+        public BoxDrawer(int width, int height, string textBoxCameraPosition,
+                         int gradX, int gradY, int gradZ)
         {
-            InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Cw = pictureBox.Width;
-            Ch = pictureBox.Height;
+            Cw = width;
+            Ch = height;
 
             Vw = 1;
             Vh = 1;
 
             bitmap = new Bitmap(Cw, Ch);
 
-            textBoxCameraPosition.Text = "2 2 0";
-            CameraPosition = new Vertex3D(textBoxCameraPosition.Text);
+            CameraPosition = new Vertex3D(textBoxCameraPosition);
             CameraDir = new Vertex3D(1, 1, 1);
             CameraDir = Vertex3D.Substract(CameraDir, CameraPosition);
 
@@ -125,15 +114,11 @@ namespace Lab2Polygons
             Light lightPoint = new Light(LightType.Point, 0.6);
             lightPoint.Position = new Vertex3D(1, 1, 1);
             lights.Add(lightPoint);
+        }
 
-            textBoxY.Text = "-10";
-            gradY = int.Parse(textBoxY.Text);
-            textBoxX.Text = "0";
-            gradX = int.Parse(textBoxX.Text);
-            textBoxZ.Text = "0";
-            gradZ = int.Parse(textBoxZ.Text);
-
-            str = new StreamWriter("output.txt");
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
 
             Draw();
         }
@@ -189,7 +174,7 @@ namespace Lab2Polygons
             return Color.FromArgb(R, G, B);
         }
 
-       
+
 
         double ComputeLighting(Vertex3D point, Vertex3D normal, Vertex3D V, int s)
         {
@@ -274,7 +259,7 @@ namespace Lab2Polygons
                 //пересечение
                 Vertex3D Q = O + (t * D);
 
-                bool first = Vertex3D.DotProduct((polygon.p2 - polygon.p1) * (Q -  polygon.p1), N) >= 0;
+                bool first = Vertex3D.DotProduct((polygon.p2 - polygon.p1) * (Q - polygon.p1), N) >= 0;
                 bool second = Vertex3D.DotProduct((polygon.p3 - polygon.p2) * (Q - polygon.p2), N) >= 0;
                 bool third = Vertex3D.DotProduct((polygon.p1 - polygon.p3) * (Q - polygon.p3), N) >= 0;
 
@@ -284,43 +269,8 @@ namespace Lab2Polygons
                 }
             }
 
-            
+
             return t;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            CameraPosition = new Vertex3D(textBoxCameraPosition.Text);
-
-            int temp;
-            if (int.TryParse(textBoxY.Text, out temp))
-            {
-                gradY = int.Parse(textBoxY.Text);
-            }
-            else
-            {
-                gradY = 0;
-            }
-
-            if (int.TryParse(textBoxX.Text, out temp))
-            {
-                gradX = int.Parse(textBoxX.Text);
-            }
-            else
-            {
-                gradX = 0;
-            }
-
-            if (int.TryParse(textBoxZ.Text, out temp))
-            {
-                gradZ = int.Parse(textBoxZ.Text);
-            }
-            else
-            {
-                gradZ = 0;
-            }
-
-            Draw();
         }
 
         public void ClosestIntersection(Vertex3D O, Vertex3D D, double t_min, double t_max, ref Polygon closestPolygon, ref double closestT)
@@ -341,7 +291,7 @@ namespace Lab2Polygons
         }
 
         Vertex3D ReflectRay(Vertex3D R, Vertex3D N)
-        { 
+        {
             return 2.0 * Vertex3D.DotProduct(N, R) * N - R;
         }
 
@@ -395,7 +345,7 @@ namespace Lab2Polygons
             //return localColor;
         }
 
-        void Draw()
+        public Bitmap Draw()
         {
             int recursion_depth = 3;
 
@@ -421,7 +371,7 @@ namespace Lab2Polygons
             }
 
 
-            pictureBox.Image = bitmap;
+            return bitmap;
         }
     }
 }

@@ -24,28 +24,33 @@ namespace Lab2Polygons
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        { 
-            textBoxCameraPosition.Text = "2 2 0";
+        {
+           
+
+            textBoxCameraPosition.Text = "-1 2 -1";
             CameraPosition = new Vertex3D(textBoxCameraPosition.Text);
 
-            textBoxY.Text = "-10";
+            textBoxY.Text = "10";
             gradY = int.Parse(textBoxY.Text);
             textBoxX.Text = "0";
             gradX = int.Parse(textBoxX.Text);
             textBoxZ.Text = "0";
             gradZ = int.Parse(textBoxZ.Text);
 
-            //recursionDepthComboBox.SelectedIndex = 0;
+            recursionDepthComboBox.SelectedIndex = 0;
 
-            //recursionDepth = int.Parse((string)recursionDepthComboBox.SelectedItem);
-            recursionDepth = 0;
+            recursionDepth = int.Parse((string)recursionDepthComboBox.SelectedItem);
+            //recursionDepth = 0;
             boxDrawer = new BoxDrawer(pictureBox.Width, pictureBox.Height, CameraPosition,
                                       gradX, gradY, gradZ, recursionDepth);
 
             Draw();
         }
 
-        
+        private void recursionDepthComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -95,7 +100,7 @@ namespace Lab2Polygons
             boxDrawer.gradX = gradX;
             boxDrawer.gradY = gradY;
             boxDrawer.gradZ = gradZ;
-            //boxDrawer.RecursionDepth = recursionDepth;
+            boxDrawer.RecursionDepth = recursionDepth;
 
             pictureBox.Image = boxDrawer.Draw();
         }

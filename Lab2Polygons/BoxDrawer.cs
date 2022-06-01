@@ -24,23 +24,27 @@ namespace Lab2Polygons
         
 
         List<Polygon> polygons;
+        List<Vertex3D> verts;
         List<Light> lights;
 
         Color backgroundColor;
-        //public int RecursionDepth { 
-        //    get { return RecursionDepth; } 
-        //    set 
-        //    {
-        //        if (value < 0)
-        //        {
-        //            RecursionDepth = 0;
-        //        }
-        //        else
-        //        {
-        //            RecursionDepth = value;
-        //        }
-        //    } 
-        //}
+
+        int recursionDepth;
+        public int RecursionDepth
+        {
+            get { return recursionDepth; }
+            set
+            {
+                if (value < 0)
+                {
+                    recursionDepth = 0;
+                }
+                else
+                {
+                    recursionDepth = value;
+                }
+            }
+        }
 
         public BoxDrawer(int width, int height, Vertex3D cameraPosition,
                          int gradX, int gradY, int gradZ, int recursionDepth)
@@ -59,70 +63,27 @@ namespace Lab2Polygons
 
             d = 1;
 
-            //this.RecursionDepth = recursionDepth;
+            this.RecursionDepth = recursionDepth;
             backgroundColor = Color.Black;
 
             polygons = new List<Polygon>();
-            //polygons.Add(new Polygon(new Vertex3D(0, -1, 4),
-            //                         new Vertex3D(2, 0, 4),
-            //                         new Vertex3D(-2, 0, 4),
-            //                         Color.Green));
-
-            polygons.Add(new Polygon(new Vertex3D(0, 0, 4),
-                                     new Vertex3D(1, 0, 4),
-                                     new Vertex3D(0, 1, 4),
-                                     Color.Green, 500, 0.2));
-
-            polygons.Add(new Polygon(new Vertex3D(1, 1, 4),
-                                     new Vertex3D(1, 0, 4),
-                                     new Vertex3D(0, 1, 4),
-                                     Color.Green, 500, 0.2));
-
-            polygons.Add(new Polygon(new Vertex3D(1, 1, 4),
-                                     new Vertex3D(1, 0, 4),
-                                     new Vertex3D(1, 1, 5),
-                                     Color.Green, 500, 0.2));
-
-            polygons.Add(new Polygon(new Vertex3D(1, 1, 5),
-                                     new Vertex3D(1, 0, 5),
-                                     new Vertex3D(1, 0, 4),
-                                     Color.Green, 500, 0.2));
-
-            polygons.Add(new Polygon(new Vertex3D(0, 1, 4),
-                                     new Vertex3D(1, 1, 4),
-                                     new Vertex3D(1, 1, 5),
-                                     Color.Green, 500, 0.2));
-
-            polygons.Add(new Polygon(new Vertex3D(0, 1, 4),
-                                     new Vertex3D(1, 1, 5),
-                                     new Vertex3D(0, 1, 5),
-                                     Color.Green, 500, 0.2));
+            verts = new List<Vertex3D>();
 
 
 
-            //polygons.Add(new Polygon(new Vertex3D(0, 0, 5),
-            //                         new Vertex3D(1, 0, 5),
-            //                         new Vertex3D(0, 1, 5),
-            //                         Color.Green));
 
-            //polygons.Add(new Polygon(new Vertex3D(1, 1, 5),
-            //                         new Vertex3D(1, 0, 5),
-            //                         new Vertex3D(0, 1, 5),
-            //                         Color.Green));
-
-            //polygons.Add(new Polygon(new Vertex3D(1, 1, 4),
-            //                         new Vertex3D(1, 0, 4),
-            //                         new Vertex3D(1, 0, 5),
-            //                         Color.Green));
-
-            polygons.Add(new Polygon(new Vertex3D(5, 0, 6),
-                                     new Vertex3D(-5, 0, 6),
-                                     new Vertex3D(0, 0, 0),
+            polygons.Add(new Polygon(new Vertex3D(5, 0, 8),
+                                     new Vertex3D(-5, 0, 8),
+                                     new Vertex3D(0, 0, -2),
                                      Color.Aquamarine, 500, 0.2));
+
+
+            AddBox(new Vertex3D(0, 0, 4), 1, 2, 1, Color.Green, 700, 0.2);
+            AddBox(new Vertex3D(2, 0, 4), 1, 1, 1, Color.Blue, 100, 0.4);
+
 
             lights = new List<Light>();
             lights.Add(new Light(LightType.Ambient, 0.2));
-
 
 
             Light lightDir = new Light(LightType.Directional, 0.8);
@@ -133,12 +94,6 @@ namespace Lab2Polygons
             lights.Add(lightPoint);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-
-            Draw();
-        }
 
         void PutPixel(int x, int y, Color color)
         {
@@ -192,7 +147,39 @@ namespace Lab2Polygons
         }
 
 
+        void AddBox(Vertex3D startPoint, double ax, double ay, double az, Color color, int specular = -1, double reflective = 0)
+        {
+            
+            int first = verts.Count;
 
+            verts.Add(new Vertex3D(0, 0, az) + startPoint);
+            verts.Add(new Vertex3D(0, ay, az) + startPoint);
+            verts.Add(new Vertex3D(ax, ay, az) + startPoint);
+            verts.Add(new Vertex3D(ax, 0, az) + startPoint);
+            verts.Add(new Vertex3D(0, 0, 0) + startPoint);
+            verts.Add(new Vertex3D(0, ay, 0) + startPoint);
+            verts.Add(new Vertex3D(ax, ay, 0) + startPoint);
+            verts.Add(new Vertex3D(ax, 0, 0) + startPoint);
+
+            polygons.Add(new Polygon(verts[5 + first], verts[4 + first], verts[0 + first], color, specular, reflective));
+            polygons.Add(new Polygon(verts[0 + first], verts[1 + first], verts[5 + first], color, specular, reflective));
+
+            polygons.Add(new Polygon(verts[0 + first], verts[4 + first], verts[7 + first], color, specular, reflective));
+            polygons.Add(new Polygon(verts[7 + first], verts[3 + first], verts[0 + first], color, specular, reflective));
+
+            polygons.Add(new Polygon(verts[7 + first], verts[4 + first], verts[5 + first], color, specular, reflective));
+            polygons.Add(new Polygon(verts[7 + first], verts[5 + first], verts[6 + first], color, specular, reflective));
+
+            polygons.Add(new Polygon(verts[2 + first], verts[1 + first], verts[0 + first], color, specular, reflective)); ;
+            polygons.Add(new Polygon(verts[0 + first], verts[3 + first], verts[2 + first], color, specular, reflective));
+
+            polygons.Add(new Polygon(verts[2 + first], verts[3 + first], verts[7 + first], color, specular, reflective));
+            polygons.Add(new Polygon(verts[2 + first], verts[7 + first], verts[6 + first], color, specular, reflective));
+
+            polygons.Add(new Polygon(verts[1 + first], verts[2 + first], verts[5 + first], color, specular, reflective));
+            polygons.Add(new Polygon(verts[2 + first], verts[6 + first], verts[5 + first], color, specular, reflective));
+
+        }
         double ComputeLighting(Vertex3D point, Vertex3D normal, Vertex3D V, int s)
         {
             double intensity = 0;
@@ -224,13 +211,13 @@ namespace Lab2Polygons
                     }
 
                     //shadows
-                    //double closest_t = 0;
-                    //Polygon shadowPolygon = null;
-                    //ClosestIntersection(point, vec_l, 0.001, tMax, ref shadowPolygon, ref closest_t);
-                    //if (shadowPolygon != null)
-                    //{
-                    //    continue;
-                    //}
+                    double closest_t = 0;
+                    Polygon shadowPolygon = null;
+                    ClosestIntersection(point, vec_l, 0.001, tMax, ref shadowPolygon, ref closest_t);
+                    if (shadowPolygon != null)
+                    {
+                        continue;
+                    }
 
                     //diffuse
                     double n_dot_l = Vertex3D.DotProduct(normal, vec_l);
@@ -378,7 +365,7 @@ namespace Lab2Polygons
                     D = D.MultiplyMatr(Matrix.getRotateXMatr(gradX));
                     D = D.MultiplyMatr(Matrix.getRotateZMatr(gradZ));
 
-                    Color color = TraceRay(CameraPosition, D, 1, double.MaxValue, 0);
+                    Color color = TraceRay(CameraPosition, D, 1, double.MaxValue, recursionDepth);
 
                     PutPixel(x, y, color);
                 }
@@ -389,3 +376,45 @@ namespace Lab2Polygons
         }
     }
 }
+
+
+
+//polygons.Add(new Polygon(new Vertex3D(0, 0, 4),
+//                         new Vertex3D(1, 0, 4),
+//                         new Vertex3D(0, 1, 4),
+//                         Color.Green, 500, 0.2));
+
+//polygons.Add(new Polygon(new Vertex3D(1, 1, 4),
+//                         new Vertex3D(1, 0, 4),
+//                         new Vertex3D(0, 1, 4),
+//                         Color.Green, 500, 0.2));
+
+//polygons.Add(new Polygon(new Vertex3D(1, 1, 4),
+//                         new Vertex3D(1, 0, 4),
+//                         new Vertex3D(1, 1, 5),
+//                         Color.Green, 500, 0.2));
+
+//polygons.Add(new Polygon(new Vertex3D(1, 1, 5),
+//                         new Vertex3D(1, 0, 5),
+//                         new Vertex3D(1, 0, 4),
+//                         Color.Green, 500, 0.2));
+
+//polygons.Add(new Polygon(new Vertex3D(0, 1, 4),
+//                         new Vertex3D(1, 1, 4),
+//                         new Vertex3D(1, 1, 5),
+//                         Color.Green, 500, 0.2));
+
+//polygons.Add(new Polygon(new Vertex3D(0, 1, 4),
+//                         new Vertex3D(1, 1, 5),
+//                         new Vertex3D(0, 1, 5),
+//                         Color.Green, 500, 0.2));
+
+////polygons.Add(new Polygon(new Vertex3D(0, 0, 4),
+////                         new Vertex3D(0, 1, 4),
+////                         new Vertex3D(0, 1, 5),
+////                         Color.Green, 500, 0.2));
+
+////polygons.Add(new Polygon(new Vertex3D(0, 0, 4),
+////                         new Vertex3D(0, 0, 5),
+////                         new Vertex3D(0, 1, 5),
+////                         Color.Green, 500, 0.2));

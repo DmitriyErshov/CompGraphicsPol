@@ -15,19 +15,35 @@ namespace Lab2Polygons
         int Vw, Vh;
         double d;
 
-        Vertex3D CameraPosition;
         Vertex3D CameraDir;
-        Matrix toRotate;
 
-        int gradY, gradX, gradZ;
+        public int gradX { get; set; }
+        public int gradY { get; set; }
+        public int gradZ { get; set; }
+        public Vertex3D CameraPosition { get; set; }
+        
 
         List<Polygon> polygons;
         List<Light> lights;
 
         Color backgroundColor;
+        //public int RecursionDepth { 
+        //    get { return RecursionDepth; } 
+        //    set 
+        //    {
+        //        if (value < 0)
+        //        {
+        //            RecursionDepth = 0;
+        //        }
+        //        else
+        //        {
+        //            RecursionDepth = value;
+        //        }
+        //    } 
+        //}
 
-        public BoxDrawer(int width, int height, string textBoxCameraPosition,
-                         int gradX, int gradY, int gradZ)
+        public BoxDrawer(int width, int height, Vertex3D cameraPosition,
+                         int gradX, int gradY, int gradZ, int recursionDepth)
         {
             Cw = width;
             Ch = height;
@@ -37,12 +53,13 @@ namespace Lab2Polygons
 
             bitmap = new Bitmap(Cw, Ch);
 
-            CameraPosition = new Vertex3D(textBoxCameraPosition);
+            CameraPosition = cameraPosition;
             CameraDir = new Vertex3D(1, 1, 1);
             CameraDir = Vertex3D.Substract(CameraDir, CameraPosition);
 
             d = 1;
 
+            //this.RecursionDepth = recursionDepth;
             backgroundColor = Color.Black;
 
             polygons = new List<Polygon>();
@@ -347,9 +364,6 @@ namespace Lab2Polygons
 
         public Bitmap Draw()
         {
-            int recursion_depth = 3;
-
-
             for (int x = -Cw / 2; x < Cw / 2; x++)
             {
                 for (int y = -Ch / 2; y < Ch / 2; y++)
@@ -364,7 +378,7 @@ namespace Lab2Polygons
                     D = D.MultiplyMatr(Matrix.getRotateXMatr(gradX));
                     D = D.MultiplyMatr(Matrix.getRotateZMatr(gradZ));
 
-                    Color color = TraceRay(CameraPosition, D, 1, double.MaxValue, recursion_depth);
+                    Color color = TraceRay(CameraPosition, D, 1, double.MaxValue, 0);
 
                     PutPixel(x, y, color);
                 }
